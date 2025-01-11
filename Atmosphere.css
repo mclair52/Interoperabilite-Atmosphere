@@ -1,0 +1,88 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #0073e6;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2.2em;
+    display:block;
+}
+
+h2 {
+    
+    font-size: 1.7em;
+    margin-top: 20px;
+    margin-bottom: 15x;
+    display:block;
+}
+
+p {
+    margin: 10px 0;
+    line-height: 1.6;
+    width: 100%;
+}
+
+.echeance {
+    
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 10px;
+    gap: 100px;
+    padding: 10px;
+    width: 18.2%;
+    display: inline-block;
+}
+
+.echeance:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0,1);
+}
+
+.meteo{
+    background: linear-gradient(to right,rgb(255, 247, 2), rgb(0, 106, 255));
+}
+.qualite {
+    font-size:20;
+    margin-top: 20px;
+    border:1px solid #0073e6;
+    background-color: rgb(184, 188, 98);
+    width: 18%;
+    text-align: center;
+    align-items: center;
+}
+
+svg {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.map {
+    height: 400px;
+    position: relative;
+    margin-top: 20px;
+}
+
+@media screen and (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    h2 {
+        font-size: 1.3em;
+    }
+
+    .echeance {
+        gap: 5px;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        padding: 8px; 
+    }
+}
