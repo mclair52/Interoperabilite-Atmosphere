@@ -1,27 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=7, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/Atmosphere.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <title>Prévisions Météo</title>
 </head>
-
 <body>
-    <script>
-        async function ip() {
-            const reponse = await fetch("https://ip-api.com/xml");
-            const ip = await reponse.json();
-            console.log(ip);
-        }
-        async function meteo() {
-            const reponse = await fetch("https://www.infoclimat.fr/public-api/gfs/xml?_ll=48,6&_auth=ARsDFFIsBCZRfFtsD3lSe1Q8ADUPeVRzBHgFZgtuAH1UMQNgUTNcPlU5VClSfVZkUn8AYVxmVW0Eb1I2WylSLgFgA25SNwRuUT1bPw83UnlUeAB9DzFUcwR4BWMLYwBhVCkDb1EzXCBVOFQoUmNWZlJnAH9cfFVsBGRSPVs1UjEBZwNkUjIEYVE6WyYPIFJjVGUAZg9mVD4EbwVhCzMAMFQzA2JRMlw5VThUKFJiVmtSZQBpXGtVbwRlUjVbKVIuARsDFFIsBCZRfFtsD3lSe1QyAD4PZA%3D%3D&_c=19f3aa7d766b6ba91191c8be71dd1ab2");
-            const meteo = await reponse.json();
-            console.log(meteo);
-        }
-    </script>
+    <h1>Prévisions Météo en temps réel</h1>
+    <div id="position"></div>
+    <div id="weather-container"></div>
 
-
+    <div id="air-quality"></div>
+    <div id="map" style="height: 400px;"></div>
+    <script src="./js/main.js" type="module"></script>
 </body>
-
 </html>

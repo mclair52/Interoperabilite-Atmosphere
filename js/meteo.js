@@ -1,0 +1,108 @@
+'use strict';
+import { getGeolocalisation } from './geolocalisation.js';
+
+async function fetchMeteo() {
+    try {
+        const datas = await getGeolocalisation();
+        return fetch(`https://www.infoclimat.fr/public-api/gfs/json?_ll=${datas.loc}&_auth=ARsDFFIsBCZRfFtsD3lSe1Q8ADUPeVRzBHgFZgtuAH1UMQNgUTNcPlU5VClSfVZkUn8AYVxmVW0Eb1I2WylSLgFgA25SNwRuUT1bPw83UnlUeAB9DzFUcwR4BWMLYwBhVCkDb1EzXCBVOFQoUmNWZlJnAH9cfFVsBGRSPVs1UjEBZwNkUjIEYVE6WyYPIFJjVGUAZg9mVD4EbwVhCzMAMFQzA2JRMlw5VThUKFJiVmtSZQBpXGtVbwRlUjVbKVIuARsDFFIsBCZRfFtsD3lSe1QyAD4PZA%3D%3D&_c=19f3aa7d766b6ba91191c8be71dd1ab2`)
+            .then(response => response.json())
+            .then(data => {
+                return data
+            });
+    } catch (error) {
+        console.error('Error:', datas.latitude, datas.longitude);
+    }
+}
+
+
+
+async function meteoTemplate(meteo) {
+    const ConteneurMeteo = document.getElementById('ConteneurMeteo');
+    const meteoData = Object.values(meteo).slice(5, 9);
+    const timesOfDay = ['Matin', 'Midi', 'Soir'];
+
+    ConteneurMeteo.innerHTML = meteoData.map((meteo, key) => `
+        <div>
+            <h3>${timesOfDay[key]}</h3>
+            <p>${getMeteoLogo(meteo)}</p>
+            <p>Temperature: ${(meteo.temperature['2m'] - 273.15).toFixed(2)}°C</p>
+            <p>${meteo.vent_moyen['10m']} m/s</p>
+            <p>Taux d'humidité${meteo.humidite['2m']}%</p>
+        </div>
+    `).join('');
+}
+
+function getMeteoLogo(weather) {
+    if (weather.pluie > 0) {
+        return '<svg xmlns="http://www.w3.org/2000/svg" height="17" width="20" viewBox="0 0 512 512"><path fill="#FFD43B" d="M361.5 1.2c5 2.1 8.6 6.6 9.6 11.9L391 121l107.9 19.8c5.3 1 9.8 4.6 11.9 9.6s1.5 10.7-1.6 15.2L446.9 256l62.3 90.3c3.1 4.5 3.7 10.2 1.6 15.2s-6.6 8.6-11.9 9.6L391 391 371.1 498.9c-1 5.3-4.6 9.8-9.6 11.9s-10.7 1.5-15.2-1.6L256 446.9l-90.3 62.3c-4.5 3.1-10.2 3.7-15.2 1.6s-8.6-6.6-9.6-11.9L121 391 13.1 371.1c-5.3-1-9.8-4.6-11.9-9.6s-1.5-10.7 1.6-15.2L65.1 256 2.8 165.7c-3.1-4.5-3.7-10.2-1.6-15.2s6.6-8.6 11.9-9.6L121 121 140.9 13.1c1-5.3 4.6-9.8 9.6-11.9s10.7-1.5 15.2 1.6L256 65.1 346.3 2.8c4.5-3.1 10.2-3.7 15.2-1.6zM160 256a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zm224 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0z"></path></svg>';
+
+    } else {
+        return ' <svg xmlns="http://www.w3.org/2000/svg" height="17" width="20" viewBox="0 0 512 512"><path fill="#FFD43B" d="M361.5 1.2c5 2.1 8.6 6.6 9.6 11.9L391 121l107.9 19.8c5.3 1 9.8 4.6 11.9 9.6s1.5 10.7-1.6 15.2L446.9 256l62.3 90.3c3.1 4.5 3.7 10.2 1.6 15.2s-6.6 8.6-11.9 9.6L391 391 371.1 498.9c-1 5.3-4.6 9.8-9.6 11.9s-10.7 1.5-15.2-1.6L256 446.9l-90.3 62.3c-4.5 3.1-10.2 3.7-15.2 1.6s-8.6-6.6-9.6-11.9L121 391 13.1 371.1c-5.3-1-9.8-4.6-11.9-9.6s-1.5-10.7 1.6-15.2L65.1 256 2.8 165.7c-3.1-4.5-3.7-10.2-1.6-15.2s6.6-8.6 11.9-9.6L121 121 140.9 13.1c1-5.3 4.6-9.8 9.6-11.9s10.7-1.5 15.2 1.6L256 65.1 346.3 2.8c4.5-3.1 10.2-3.7 15.2-1.6zM160 256a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zm224 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0z"/></svg>';
+    }
+}
+
+export {
+    meteoTemplate,
+    fetchMeteo,
+};
+// // Fonction de formatage de température en Celsius
+
+
+// // Fonction pour générer le HTML pour une seule échéance
+// function generateEcheanceHTML(item) {
+//     const temperature = formatTemperature(item.temperature);
+//     const isNegative = temperature < 0;
+//     const weatherIcon = item.pluie > 0
+//         ? `
+//             <svg xmlns="http://www.w3.org/2000/svg" height="17" width="20" viewBox="0 0 512 512"><path fill="#FFD43B" d="M361.5 1.2c5 2.1 8.6 6.6 9.6 11.9L391 121l107.9 19.8c5.3 1 9.8 4.6 11.9 9.6s1.5 10.7-1.6 15.2L446.9 256l62.3 90.3c3.1 4.5 3.7 10.2 1.6 15.2s-6.6 8.6-11.9 9.6L391 391 371.1 498.9c-1 5.3-4.6 9.8-9.6 11.9s-10.7 1.5-15.2-1.6L256 446.9l-90.3 62.3c-4.5 3.1-10.2 3.7-15.2 1.6s-8.6-6.6-9.6-11.9L121 391 13.1 371.1c-5.3-1-9.8-4.6-11.9-9.6s-1.5-10.7 1.6-15.2L65.1 256 2.8 165.7c-3.1-4.5-3.7-10.2-1.6-15.2s6.6-8.6 11.9-9.6L121 121 140.9 13.1c1-5.3 4.6-9.8 9.6-11.9s10.7-1.5 15.2 1.6L256 65.1 346.3 2.8c4.5-3.1 10.2-3.7 15.2-1.6zM160 256a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zm224 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0z"></path></svg>
+// ` // Pluie
+//         : item.risque_neige === 'oui'
+//             ? `<svg xmlns="http://www.w3.org/2000/svg" height="17" width="20" viewBox="0 0 448 512">
+//                     <path fill="#d6d6d6" d="M224 0c17.7 0 32 14.3 32 32l0 30.1 15-15c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-49 49 0 70.3 61.4-35.8 17.7-66.1c3.4-12.8 16.6-20.4 29.4-17s20.4 16.6 17 29.4l-5.2 19.3 23.6-13.8c15.3-8.9 34.9-3.7 43.8 11.5s3.8 34.9-11.5 43.8l-25.3 14.8 21.7 5.8c12.8 3.4 20.4 16.6 17 29.4s-16.6 20.4-29.4 17l-67.7-18.1L287.5 256l60.9 35.5 67.7-18.1c12.8-3.4 26 4.2 29.4 17s-4.2 26-17 29.4l-21.7 5.8 25.3 14.8c15.3 8.9 20.4 28.5 11.5 43.8s-28.5 20.4-43.8 11.5l-23.6-13.8 5.2 19.3c3.4 12.8-4.2 26-17 29.4s-26-4.2-29.4-17l-17.7-66.1L256 311.7l0 70.3 49 49c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-15-15 0 30.1c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-30.1-15 15c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l49-49 0-70.3-61.4 35.8-17.7 66.1c-3.4 12.8-16.6 20.4-29.4 17s-20.4-16.6-17-29.4l5.2-19.3L48.1 395.6c-15.3 8.9-34.9 3.7-43.8-11.5s-3.7-34.9 11.5-43.8l25.3-14.8-21.7-5.8c-12.8-3.4-20.4-16.6-17-29.4s16.6-20.4 29.4-17l67.7 18.1L160.5 256 99.6 220.5 31.9 238.6c-12.8 3.4-26-4.2-29.4-17s4.2-26 17-29.4l21.7-5.8L15.9 171.6C.6 162.7-4.5 143.1 4.4 127.9s28.5-20.4 43.8-11.5l23.6 13.8-5.2-19.3c-3.4-12.8 4.2-26 17-29.4s26 4.2 29.4 17l17.7 66.1L192 200.3l0-70.3L143 81c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l15 15L192 32c0-17.7 14.3-32 32-32z"/>
+//                 </svg>` // Neige
+//             : ` <svg xmlns="http://www.w3.org/2000/svg" height="17" width="20" viewBox="0 0 512 512">
+//                 <path fill="#FFD43B" d="M361.5 1.2c5 2.1 8.6 6.6 9.6 11.9L391 121l107.9 19.8c5.3 1 9.8 4.6 11.9 9.6s1.5 10.7-1.6 15.2L446.9 256l62.3 90.3c3.1 4.5 3.7 10.2 1.6 15.2s-6.6 8.6-11.9 9.6L391 391 371.1 498.9c-1 5.3-4.6 9.8-9.6 11.9s-10.7 1.5-15.2-1.6L256 446.9l-90.3 62.3c-4.5 3.1-10.2 3.7-15.2 1.6s-8.6-6.6-9.6-11.9L121 391 13.1 371.1c-5.3-1-9.8-4.6-11.9-9.6s-1.5-10.7 1.6-15.2L65.1 256 2.8 165.7c-3.1-4.5-3.7-10.2-1.6-15.2s6.6-8.6 11.9-9.6L121 121 140.9 13.1c1-5.3 4.6-9.8 9.6-11.9s10.7-1.5 15.2 1.6L256 65.1 346.3 2.8c4.5-3.1 10.2-3.7 15.2-1.6zM160 256a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zm224 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0z"/>
+//             </svg>`; // Soleil
+
+//     const windSpeed = item.vent_moyen > 20
+//         ? `<p>${item.vent_moyen} km/h <svg xmlns="http://www.w3.org/2000/svg" height="17" width="20" viewBox="0 0 512 512">
+//                 <path d="M288 32c0 17.7 14.3 32 32 32l32 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l320 0c53 0 96-43 96-96s-43-96-96-96L320 0c-17.7 0-32 14.3-32 32zm64 352c0 17.7 14.3 32 32 32l32 0c53 0 96-43 96-96s-43-96-96-96L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-32 0c-17.7 0-32 14.3-32 32zM128 512l32 0c53 0 96-43 96-96s-43-96-96-96L32 320c-17.7 0-32 14.3-32 32s14.3 32 32 32l128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-32 0c-17.7 0-32 14.3-32 32s14.3 32 32 32z"/>
+//             </svg></p>`
+//         : `<p>${item.vent_moyen} km/h</p>`;
+
+//     return `
+//         <div class="echeance">
+//             <h2>${formatHour(item.hour)}</h2>
+//             <p>
+//                 <b>Température :</b>
+//                 ${temperature}°C
+//                 ${isNegative ? 'logo  je ne sais plus' : ''}
+//             </p>
+//             <p><b>Précipitations :</b> ${weatherIcon}</p>
+//             <p><b>Vent :</b> ${windSpeed}</p>
+//         </div>
+//     `;
+// }
+
+// // Fonction principale pour générer le contenu HTML de toutes les échéances
+// function generateHTML(data) {
+//     return data.map(generateEcheanceHTML).join('');
+// }
+
+// // Initialisation de la météo après le chargement de la page
+// document.addEventListener("DOMContentLoaded", async () => {
+//     try {
+//         const weatherData = await fetchWeather(latitude, longitude);
+//         const container = document.getElementById('weather-container');
+//         if (container) {
+//             container.innerHTML = generateHTML(weatherData);
+//         } else {
+//             console.error("Conteneur HTML 'weather-container' introuvable.");
+//         }
+//     } catch (error) {
+//         const container = document.getElementById('weather-container');
+//         if (container) {
+//             container.innerHTML = "<p>Erreur lors de la récupération des données météo.</p>";
+//         }
+//     }
+// });

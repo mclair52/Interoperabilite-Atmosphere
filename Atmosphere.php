@@ -84,7 +84,7 @@ $xml_data_iut = json_decode($reponse_iut, true);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-    <link rel="stylesheet" href="Atmosphere.css" />
+    <link rel="stylesheet" href="css/Atmosphere.css" />
     <title>Prévisions météo</title>
 </head>
 
