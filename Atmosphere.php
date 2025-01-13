@@ -15,7 +15,7 @@ curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 $xml_reponse = curl_exec($ch);
 $geo_data = simplexml_load_string($xml_reponse);
 
-$latitude = $geo_data->lat;
+$latitude = $geo_data->lat;     
 $longitude = $geo_data->lon;
 $region = $geo_data->regionName;
 $city = $geo_data->city;
@@ -100,7 +100,7 @@ $xml_data_iut = json_decode($reponse_iut, true);
     <div class="API">
         <h2>API utilisées et lien Git</h2>
         <ul>
-            <li>Lien Github: </li>
+            <li>Lien Github: <a href="https://github.com/mclair52/Interoperabilite-Atmosphere">https://github.com/mclair52/Interoperabilite-Atmosphere</a></li>
             <li>API pour la géolocalisation : <a href="http://ip-api.com/xml">http://ip-api.com/xml</a></li>
             <li>API pour la météo : <a
                     href="https://www.infoclimat.fr/public-api/gfs/xml?_ll=48,6&_auth=ARsDFFIsBCZRfFtsD3lSe1Q8ADUPeVRzBHgFZgtuAH1UMQNgUTNcPlU5VClSfVZkUn8AYVxmVW0Eb1I2WylSLgFgA25SNwRuUT1bPw83UnlUeAB9DzFUcwR4BWMLYwBhVCkDb1EzXCBVOFQoUmNWZlJnAH9cfFVsBGRSPVs1UjEBZwNkUjIEYVE6WyYPIFJjVGUAZg9mVD4EbwVhCzMAMFQzA2JRMlw5VThUKFJiVmtSZQBpXGtVbwRlUjVbKVIuARsDFFIsBCZRfFtsD3lSe1QyAD4PZA%3D%3D&_c=19f3aa7d766b6ba91191c8be71dd1ab2">https://www.infoclimat.fr
